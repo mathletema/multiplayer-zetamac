@@ -1,0 +1,76 @@
+.outer {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: white;
+}
+
+.inner {
+    width: 480px;
+    margin: auto auto;
+    padding-top: 20px;
+}
+
+.button {
+    margin: 20px auto;
+    width: 100%;
+    display:block;
+}
+
+.input {
+    width: 100%;
+    margin: 20px auto;
+    display:block;
+}
+
+/*****************
+* Welcome screen *
+*****************/
+
+#party {
+    margin-right: 20px;
+    margin-top: 0px
+}
+
+#start {
+    margin-top: 0px;
+}
+
+.question.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 40vh;
+    visibility: visible;
+}
+
+#statement {
+    margin: 0 0;
+    font-size: 2.5em;
+    font-weight: 500;
+    justify-content: left;
+}
+
+#answer {
+    width: 40%;
+    font-size: 2.5em;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.scoreboard {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
+}
+
+.timer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px
+}
