@@ -1,5 +1,4 @@
 import random
-from collections import deque
 import asyncio
 import json
 
@@ -22,9 +21,6 @@ class Game:
     def add_player(self, player_socket, name):
         self.players.append(Player(player_socket, name))
         return len(self.players) - 1
-
-    def increase_score(self, id):
-        self.players[id].increase_score()
 
     async def player_handle(self, id):  
         await self.broadcast(json.dumps({"playerID": id, "players": self.get_players()}))
