@@ -7,6 +7,15 @@ import json
 games = dict()
 
 def generate_party_id():
+    """
+    Generate a random party ID for a new game session.
+
+    The party ID is a 6-character string composed of uppercase letters,
+    lowercase letters, and digits.
+
+    Returns:
+        str: A randomly generated 6-character party ID.
+    """
     strings = ['abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789','123456789']
     output = ''
     for _ in range(6):
