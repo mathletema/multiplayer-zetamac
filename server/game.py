@@ -1,24 +1,43 @@
 import random
 import asyncio
 import json
+from typing import List, Any
 
 class Player:
-    def __init__(self, player_socket, name):
+    def __init__(self, player_socket: Any, name: str) -> None:
+        """
+        Initialize a Player instance.
+
+        Args:
+            player_socket (Any): The WebSocket connection for the player.
+            name (str): The name of the player.
+        """
         self.websocket = player_socket
         self.score = 0
         self.stage = 0
         self.name = name
         self.done = asyncio.Event()
-
-
 class Game:
-    def __init__(self):
-        self.players = []
+    def __init__(self) -> None:
+        """
+        Initialize a Game instance.
+        """
+        self.players: List[Player] = []
         self.started = asyncio.Event()
         self.seed = int(random.random() * 1000000)
         self.countdown = 3
 
-    def add_player(self, player_socket, name):
+    def add_player(self, player_socket: Any, name: str) -> int:
+        """
+        Add a new player to the game.
+
+        Args:
+            player_socket (Any): The WebSocket connection for the player.
+            name (str): The name of the player.
+
+        Returns:
+            int: The ID of the newly added player.
+        """
         self.players.append(Player(player_socket, name))
         return len(self.players) - 1
 
