@@ -1,11 +1,7 @@
-import asyncio
-import websockets
 import random
 from app.game import Game
-import json
 
-from fastapi import FastAPI, WebSocket
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 app = FastAPI()
 
@@ -42,7 +38,7 @@ async def handler(websocket: WebSocket):
         await games[game_id].player_handle(player_id)    
         if player_id == 0:
                 del games[game_id]
-    except websockets.ConnectionClosed:
+    except WebSocketDisconnect:
         if player_id == 0:
             del games[game_id]
 
