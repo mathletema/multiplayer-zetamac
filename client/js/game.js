@@ -1,7 +1,5 @@
-const HOST = '0.0.0.0';
+const HOST = 'vps-1dbc726d.vps.ovh.us';
 const PORT = '8001'
-
-
 
 class Game {
     constructor() {
