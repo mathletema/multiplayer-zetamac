@@ -59,7 +59,7 @@ class Game {
                 }.bind(this), 300
                 );
 
-                this.websocket = new WebSocket('ws://' + HOST + ':' + PORT);
+                this.websocket = new WebSocket('wss://' + HOST + ':' + PORT);
                 
                 this.websocket.addEventListener('open', function () {
                     clearInterval(interval);
