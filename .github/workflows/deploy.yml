@@ -1,0 +1,26 @@
+name: Deploy
+permissions:
+  contents: write
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Deploy to branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git branch -D deployment/client || true
+          git checkout -b deployment/client
+          cp -r client /tmp/
+          rm -rf *
+          rm -rf .github .gitignore
+          cp -r /tmp/client/* ./
+          git add -A
+          git commit -m "build site."
+          git push origin deployment/client --force
