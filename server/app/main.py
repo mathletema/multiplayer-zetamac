@@ -1,7 +1,7 @@
 import asyncio
 import websockets
 import random
-from game import Game
+from app.game import Game
 import json
 
 games = dict()
@@ -42,12 +42,12 @@ async def handler(websocket):
             del games[game_id]
 
 
-async def main():
+async def app():
     async with websockets.serve(handler, "", 8001):
         await asyncio.Future()  # run forever
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        asyncio.run(app())
     except KeyboardInterrupt:
         print('Closing server')
