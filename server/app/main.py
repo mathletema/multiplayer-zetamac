@@ -4,6 +4,11 @@ import random
 from app.game import Game
 import json
 
+from fastapi import FastAPI, WebSocket
+from fastapi.responses import HTMLResponse
+
+app = FastAPI()
+
 games = dict()
 
 def generate_party_id():
@@ -13,24 +18,24 @@ def generate_party_id():
         output += random.choice(random.choice(strings))
     return output
 
-async def handler(websocket):
+async def handler(websocket: WebSocket):
     try:
-        initial_info = await websocket.recv()
-        initial_info = json.loads(initial_info)
+        initial_info = await websocket.receive_json()
+        # initial_info = json.loads(initial_info)
         print(initial_info)
         if initial_info['party'] == 'host':
             game_id= generate_party_id()
             while game_id in games:
                 game_id= generate_party_id()
-            await websocket.send(str(game_id))
+            await websocket.send_text(str(game_id))
             games[game_id] = Game()
         else:
             game_id = initial_info['party']
             if game_id not in games:
-                await websocket.send('error')
+                await websocket.send_text('error')
                 return -1
             else:
-                await websocket.send('success')
+                await websocket.send_text('success')
                 pass
         name = initial_info['name']
         player_id = games[game_id].add_player(websocket, name)
@@ -42,12 +47,11 @@ async def handler(websocket):
             del games[game_id]
 
 
-async def app():
-    async with websockets.serve(handler, "", 8001):
-        await asyncio.Future()  # run forever
+@app.websocket("/")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    await handler(websocket)
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(app())
-    except KeyboardInterrupt:
-        print('Closing server')
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)

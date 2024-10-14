@@ -27,24 +27,24 @@ class Game:
         # Wait for start signal
         if id == 0:
             while True:
-                start = await self.players[id].websocket.recv()
+                start = await self.players[id].websocket.receive_text()
                 if start == 'start':
                     self.started.set()
                     break
         await self.started.wait()
         
         # Start countdown
-        await self.players[id].websocket.send("starting")
+        await self.players[id].websocket.send_text("starting")
         for i in range(self.countdown):
-            await self.players[id].websocket.send(json.dumps({"type":"countdown", "message":self.countdown-i}))
+            await self.players[id].websocket.send_text(json.dumps({"type":"countdown", "message":self.countdown-i}))
             await asyncio.sleep(1)
         
         # Send seed
-        await self.players[id].websocket.send(json.dumps({"type":"seed", "message":str(self.seed)}))
+        await self.players[id].websocket.send_text(json.dumps({"type":"seed", "message":str(self.seed)}))
 
         # Wait for answers
         while True:
-            solving = await self.players[id].websocket.recv()
+            solving = await self.players[id].websocket.receive_text()
             if solving == '0':
                 break
             else:
@@ -57,8 +57,8 @@ class Game:
             await player.done.wait()
 
         # Message game done
-        await self.players[id].websocket.send("Your final score is " + str(self.players[id].score))
-        await self.players[id].websocket.send("Game done!")
+        await self.players[id].websocket.send_text("Your final score is " + str(self.players[id].score))
+        await self.players[id].websocket.send_text("Game done!")
         
 
     def get_sockets(self):
@@ -69,7 +69,7 @@ class Game:
 
     async def broadcast(self, id):
         for player in self.players:
-            await player.websocket.send(str(id))
+            await player.websocket.send_text(str(id))
     
     def get_players(self):
         return [player.name for player in self.players]

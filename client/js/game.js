@@ -1,4 +1,4 @@
-const HOST = location.host.split(':')[0];
+const HOST = '0.0.0.0';
 const PORT = '8001'
 
 
